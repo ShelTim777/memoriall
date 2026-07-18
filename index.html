@@ -21,7 +21,8 @@
   
   .hero-name { text-align: center; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
   .hero-dates { text-align: center; font-size: 16px; color: var(--gray); margin-bottom: 10px; font-weight: 300; letter-spacing: 2px; }
-  .hero-rank { text-align: center; font-size: 14px; color: var(--accent); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+  .hero-rank { text-align: center; font-size: 14px; color: var(--accent); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+  .hero-award { text-align: center; font-size: 13px; color: var(--accent); margin-bottom: 30px; font-style: italic; }
   
   .hero-quote { font-size: 15px; line-height: 1.7; color: #b0b0b0; margin-bottom: 40px; font-style: italic; padding: 20px; border-left: 2px solid var(--accent); background: rgba(212, 175, 55, 0.03); border-radius: 0 4px 4px 0; }
   .divider { width: 60px; height: 1px; background: var(--gray); margin: 40px auto; }
@@ -73,12 +74,13 @@
   </div>
 
   <div class="hero-portrait">
-    <img src="img/1.jpg" alt="Главное фото" onerror="this.src='https://via.placeholder.com/280x350/1a1a1a/666666?text=ФОТО'">
+    <img src="img/14.jpg" alt="Главное фото" onerror="this.src='https://via.placeholder.com/280x350/1a1a1a/666666?text=ФОТО'">
   </div>
 
-  <h1 class="hero-name">ДАМИР ИСЛАМОВ</h1>
-  <div class="hero-dates">13.10.1996 — 07.03.2022</div>
-  <div class="hero-rank">Гвардии старший лейтенант<br>Командир танкового взвода</div>
+  <h1 class="hero-name">ГРИГОРЬЕВ ДМИТРИЙ НИКОЛАЕВИЧ</h1>
+  <div class="hero-dates">23.08.1993</div>
+  <div class="hero-rank">Ветеран СВО</div>
+  <div class="hero-award">Награждён медалью «За отвагу»</div>
 
   <div class="hero-quote">
     «Мы не просто защищали землю. Мы защищали тех, кто стоит за нашей спиной».
@@ -89,7 +91,7 @@
   <button class="action-btn" onclick="leaveTrace(this)">
     <span class="glow-orb"></span> Зажечь свет памяти
   </button>
-  <div class="counter" id="trace-counter">Свет зажгли: 1 247 раз</div>
+  <div class="counter" id="trace-counter">Свет зажгли: 0 раз</div>
 
   <div class="gallery-title">Видеоархив</div>
   <div class="video-grid" id="video-gallery"></div>
@@ -98,8 +100,7 @@
   <div class="gallery-grid" id="photo-gallery"></div>
 
   <div class="footer-brand">
-    Цифровая платформа интерактивной памяти<br>
-    Tech Partner: KOT & KOTE
+    Цифровая платформа интерактивной памяти
   </div>
 </div>
 
@@ -113,7 +114,6 @@
 </div>
 
 <script>
-  // Запуск музыки при нажатии на экран приветствия
   document.getElementById('welcome-screen').addEventListener('click', function() {
     var audio = document.getElementById('bg-audio');
     audio.volume = 0.4; 
@@ -122,21 +122,16 @@
     setTimeout(() => { this.style.display = 'none'; }, 1000);
   });
 
-  // ============================================
-  // СЮДА ВСТАВЬ ССЫЛКИ С ЯНДЕКС.ДИСКА
-  // Формат: "https://disk.yandex.ru/xxxxx?dl=1"
-  // ============================================
   const videoLinks = [
-    "https://disk.yandex.ru/i/Y0qMPqVY2KHa4Q?dl=1",
-    "https://disk.yandex.ru/i/7XzOgLJ3Of_ROwdl=1",
-    "https://disk.yandex.ru/i/Vw7_7EskiFrROgdl=1",
-    "https://disk.yandex.ru/i/lXXmeO5jZIOzNgdl=1",
-    "https://disk.yandex.ru/i/bYbN5WuzN2ug0wdl=1",
-    "https://disk.yandex.ru/i/9OJnWRNndKf_wwdl=1",
-    "https://disk.yandex.ru/i/JC9zYQzW_YZV0Adl=1"
+    "https://disk.yandex.ru/ССЫЛКА1?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА2?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА3?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА4?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА5?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА6?dl=1",
+    "https://disk.yandex.ru/ССЫЛКА7?dl=1"
   ];
 
-  // Создание карточек видео
   const videoGrid = document.getElementById('video-gallery');
   videoLinks.forEach((link, index) => {
     let card = document.createElement('div');
@@ -146,44 +141,36 @@
     videoGrid.appendChild(card);
   });
 
-  // Создание галереи фото (2-25)
+  // Фото с 2 по 25, пропуская 6 (удалено) и 14 (главное фото)
   const gallery = document.getElementById('photo-gallery');
   for(let i = 2; i <= 25; i++) {
+    if (i === 6 || i === 14) continue; // Пропускаем удалённое и главное фото
     let img = document.createElement('img');
     img.src = `img/${i}.jpg`;
     img.onerror = function() { this.style.display = 'none'; };
     gallery.appendChild(img);
   }
 
-  // Открытие видео в модальном окне
   function openVideoModal(link) {
     const videoContent = document.getElementById('video-content');
-    
-    // Проверяем, это Яндекс.Диск или прямое видео
     if (link.includes('yandex.ru') || link.includes('yadi.sk')) {
-      // Для Яндекс.Диска используем iframe
       videoContent.innerHTML = `<iframe src="${link}" allowfullscreen></iframe>`;
     } else {
-      // Для прямых ссылок используем video тег
       videoContent.innerHTML = `<video controls autoplay><source src="${link}" type="video/mp4"></video>`;
     }
-    
     document.getElementById('video-modal').style.display = 'flex';
   }
 
-  // Закрытие модального окна
   function closeVideoModal() {
     document.getElementById('video-modal').style.display = 'none';
     document.getElementById('video-content').innerHTML = '';
   }
 
-  // Закрытие по клику вне видео
   window.onclick = function(event) {
     const modal = document.getElementById('video-modal');
     if (event.target == modal) closeVideoModal();
   }
 
-  // Кнопка "Зажечь свет"
   function leaveTrace(btn) {
     const orb = btn.querySelector('.glow-orb');
     const counter = document.getElementById('trace-counter');
